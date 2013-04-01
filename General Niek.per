@@ -435,10 +435,89 @@
 )
 
 
+
+;*****************************************************************************
+;				Research Rules
+;*****************************************************************************
+(defrule
+   (can-research ri-wheel-barrow)
+   =>
+   (research ri-wheel-barrow)
+   (chat-to-allies "Researching wheel barrow.")
+)
+
+(defrule
+   (can-research ri-man-at-arms)
+   =>
+   (research ri-man-at-arms)
+   (chat-to-allies "Researching man at arms.")
+)
+
+(defrule
+   (not(research-available ri-wheel-barrow))
+   (not(research-available ri-man-at-arms))
+   (can-research ri-double-bit-axe)
+   =>
+   (research ri-double-bit-axe)
+   (chat-to-allies "Researching double bit axe.")
+)
+
+(defrule
+   (not(research-available ri-double-bit-axe))
+   (can-research ri-gold-mining)
+   =>
+   (research ri-gold-mining)
+   (chat-to-allies "Researching gold mining.")
+)
+
+(defrule
+   (not(research-available ri-gold-mining))
+   (can-research ri-horse-collar)
+   =>
+   (research ri-horse-collar)
+   (chat-to-allies "Researching horse collar.")
+)
+
+(defrule
+   (not(research-available ri-man-at-arms))
+   (can-research ri-scale-mail)
+   =>
+   (research ri-scale-mail)
+   (chat-to-allies "Researching scale mail armor.")
+)
+
+(defrule
+   (research-completed ri-scale-mail)
+   (can-research ri-forging)
+   =>
+   (research ri-forging)
+   (chat-to-allies "Researching forging.")
+)
+
+;The following rule will greatly aid in the TC being able
+;to defend itself.
+
+(defrule
+   (town-under-attack)
+   (can-research ri-fletching)
+   =>
+   (research ri-fletching)
+   (chat-to-allies "Researching fletching.")
+)
+
+(defrule
+   (current-age > dark-age)
+   (can-research ri-stone-mining)
+   =>
+   (research ri-stone-mining)
+   (chat-to-allies "Researching stone mining.")
+)
+
+
+
 ;*****************************************************************************
 ;				Training Rules
 ;*****************************************************************************
-
 (defrule
    (current-age == dark-age) 
    (unit-type-count-total villager < max-num-dark-villagers) 
@@ -766,14 +845,14 @@
 ;*****************************************************************************
 (defrule
 	(not(town-under-attack))
-	(strategic-number sn-military-superiority >= 1)
+	(strategic-number 215 >= 1)
 	(strategic-number sn-number-attack-groups < 200)
 	=>
 	(set-strategic-number sn-number-attack-groups 200)
 )
 
 (defrule
-	(strategic-number sn-military-superiority <= 0)
+	(strategic-number 215 <= 0)
 	(strategic-number sn-number-attack-groups > 0)
 	=>
 	(set-strategic-number sn-number-attack-groups 0)
