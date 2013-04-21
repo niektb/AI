@@ -13,7 +13,7 @@
 ;*****************************************************************************
 ;				Constants
 ;*****************************************************************************
-(defconst max-num-dark-villagers 30)
+(defconst max-num-dark-villagers 15)
 
 
 
@@ -56,7 +56,7 @@
 (defrule
    (building-type-count-total mill > 0)
    (building-type-count-total lumber-camp > 0)
-   (unit-type-count-total villager >= 30) 
+   (unit-type-count-total villager >= max-num-dark-villagers) 
    (can-research feudal-age)
    =>
    (research feudal-age)
@@ -429,11 +429,37 @@
 (defrule
    (current-age == feudal-age)
    (building-type-count-total blacksmith > 0)
+   (building-type-count-total stable < 1)
+   (can-build stable)
+   =>
+   (build stable)
+)
+
+(defrule
+   (current-age == feudal-age)
+   (building-type-count-total blacksmith > 0)
    (can-build watch-tower)
    =>
    (build watch-tower)
 )
 
+(defrule
+   (current-age >= castle-age)
+   (building-type-count-total barracks > 1)
+   (building-type-count-total blacksmith > 0)
+   (can-build castle)
+   =>
+   (build castle)
+)
+
+(defrule
+   (current-age >= castle-age)
+   (building-type-count-total barracks > 1)
+   (building-type-count-total blacksmith > 0)
+   (can-build university)
+   =>
+   (build university)
+)
 
 
 ;*****************************************************************************
@@ -451,6 +477,41 @@
    =>
    (research ri-man-at-arms)
    (chat-to-allies "Researching man at arms.")
+)
+
+(defrule
+   (can-research ri-long-swordsman)
+   =>
+   (research ri-long-swordsman)
+   (chat-to-allies "Researching swordsman.")
+)
+
+(defrule
+   (can-research ri-two-handed-swordsman)
+   =>
+   (research ri-two-handed-swordsman)
+   (chat-to-allies "Researching twohanded.")
+)
+
+(defrule
+   (can-research ri-champion)
+   =>
+   (research ri-champion)
+   (chat-to-allies "Researching champion.")
+)
+
+(defrule
+   (can-research ri-crossbow)
+   =>
+   (research ri-crossbow)
+   (chat-to-allies "Researching crossbow.")
+)
+
+(defrule
+   (can-research ri-arbalest)
+   =>
+   (research ri-arbalest)
+   (chat-to-allies "Researching arbalest.")
 )
 
 (defrule
@@ -513,7 +574,35 @@
    (chat-to-allies "Researching stone mining.")
 )
 
+(defrule
+   (current-age > feudal-age)
+   (can-research ri-murder-holes)
+   =>
+   (research ri-murder-holes)
+   (chat-to-allies "Researching murder holes.")
+)
 
+(defrule
+   (current-age > feudal-age)
+   (can-research ri-ballistics)
+   =>
+   (research ri-ballistics)
+   (chat-to-allies "Researching ballistics.")
+)
+
+(defrule
+   (can-research ri-capped-ram)
+   =>
+   (research ri-capped-ram)
+   (chat-to-allies "Researching capped ram.")
+)
+
+(defrule
+   (can-research ri-siege-ram)
+   =>
+   (research ri-siege-ram)
+   (chat-to-allies "Researching siege ram.")
+)
 
 ;*****************************************************************************
 ;				Training Rules
@@ -527,7 +616,15 @@
 )
 
 (defrule                     
-   (current-age > dark-age) 
+   (current-age == feudal-age) 
+   (unit-type-count-total villager < 30)
+   (can-train villager)
+   =>
+   (train villager)
+)
+
+(defrule                     
+   (current-age > feudal-age) 
    (unit-type-count-total villager < 40)
    (can-train villager)
    =>
@@ -535,7 +632,7 @@
 )
 
 (defrule
-   (current-age > dark-age)
+   (current-age == imperial-age)
    (unit-type-count-total villager > 20)
    (can-train militiaman-line)
    =>
@@ -545,12 +642,37 @@
 (defrule
    (current-age > dark-age)
    (unit-type-count-total villager > 20)
+   (can-train militiaman-line)
+   (strategic-number 215 < 0) 
+   =>
+   (train militiaman-line)
+)
+
+(defrule
+   (current-age > dark-age)
+   (unit-type-count-total villager > 20)
+   (can-train archer-line)
+   (strategic-number 215 < 0) 
+   =>
+   (train archer-line)
+)
+
+(defrule
+   (current-age == imperial-age)
+   (unit-type-count-total villager > 20)
    (can-train archer-line)
    =>
    (train archer-line)
 )
 
-
+(defrule
+   (current-age == imperial-age)
+   (unit-type-count-total battering-ram-line < 5)
+   (strategic-number 215 > -1)
+   (can-train battering-ram-line)
+   =>
+   (train battering-ram-line)
+)
 
 ;*****************************************************************************
 ;				Military Superiority
