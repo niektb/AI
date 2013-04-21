@@ -1,0 +1,9 @@
+(defrule
+	(unit-type-count-total villager < 3)
+	(military-population < 2)
+	(building-type-count castle == 0)
+	(building-type-count town-center == 0)
+=>
+	(chat-to-player my-player-number "I'm too weak to continue the fight. I resign")
+	(resign)
+)

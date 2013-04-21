@@ -1,0 +1,24 @@
+; We attack if superiority and cancel attack if not.
+
+(defrule
+	(strategic-number SN-MILITARY-SUPERIORITY >= 1)
+	(strategic-number sn-number-attack-groups < 200)
+=>
+	(set-strategic-number sn-number-attack-groups 200)
+)
+
+(defrule
+	(strategic-number SN-MILITARY-SUPERIORITY <= 0)
+	(strategic-number sn-number-attack-groups > 0)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+; sn-number-attack-groups send the selected number of groups of soldiers to attack the enemy
+; every group of soldiers will be composed by a number between the numbers selected by the sns
+; sn-minimum-attack-group-size and sn-maximum-attack-group-size
+; For example
+; (set-strategic-number sn-minimum-attack-group-size 20)
+; (set-strategic-number sn-maximum-attack-group-size 30)
+; It should cause that the groups are composed by at least 20 units and at maximum 30 units
+; I've used the default values to don't complicate my AI, I'll work more on it in my last lessons.

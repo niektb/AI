@@ -1,0 +1,707 @@
+; 1- Constants
+; 2- Initialization of goals, sns, etc
+; 3- Economy
+; 4- Buildings
+; 5- Upgrades
+; 6- Units
+; 7- Market
+; 8- Military superiority
+; 9- Defend Rules 
+; 10- Attack
+; 11- Resign
+
+;*****************************************************************************
+;				Constants
+;*****************************************************************************
+(defconst max-num-dark-villagers 15)
+(defconst SN-MILITARY-SUPERIORITY 7)
+
+
+
+;*****************************************************************************
+;				Initialization Rules (including age up)
+;*****************************************************************************
+
+(defrule
+   (true)
+   =>
+   (set-strategic-number sn-camp-max-distance 8)
+   (set-strategic-number sn-initial-exploration-required 0)
+   (set-strategic-number sn-food-dropsite-distance -1)
+   (set-strategic-number sn-wood-dropsite-distance -1)
+   (set-strategic-number sn-stone-dropsite-distance 100)
+   (set-strategic-number sn-gold-dropsite-distance 35)
+   (set-strategic-number sn-maximum-food-drop-distance 15)
+   (set-strategic-number sn-maximum-wood-drop-distance 15)
+   (set-strategic-number sn-maximum-stone-drop-distance 25)
+   (set-strategic-number sn-maximum-gold-drop-distance 25)
+   (set-strategic-number sn-maximum-hunt-drop-distance 15)
+   (set-strategic-number sn-maximum-fish-boat-drop-distance 15)
+   (set-strategic-number sn-mill-max-distance 15)
+   (disable-self)
+)
+
+(defrule
+   (true)
+   =>
+   (set-strategic-number sn-gold-defend-priority 1)
+   (set-strategic-number sn-stone-defend-priority 0)
+   (set-strategic-number sn-forage-defend-priority 0)
+   (set-strategic-number sn-relic-defend-priority 0)
+   (set-strategic-number sn-town-defend-priority 0)
+   (set-strategic-number sn-task-ungrouped-soldiers 0)
+   (set-strategic-number sn-enemy-sighted-response-distance 2)
+   (disable-self)
+)
+                             
+;Age up rules
+(defrule
+   (building-type-count-total mill > 0)
+   (building-type-count-total lumber-camp > 0)
+   (unit-type-count-total villager >= max-num-dark-villagers) 
+   (can-research feudal-age)
+   =>
+   (research feudal-age)
+   (chat-to-allies "Researching Feudal Age")      
+)
+
+(defrule
+   (can-research castle-age)
+   (building-type-count-total mill > 0)
+   (building-type-count-total lumber-camp > 0)
+   (building-type-count-total mining-camp > 0)
+   (building-type-count-total barracks > 0)
+   (building-type-count-total archery-range > 0)
+   (building-type-count-total stable > 0)
+   (building-type-count-total market > 0)
+   (unit-type-count-total villager >= 30) 
+   =>
+   (research castle-age)
+   (chat-to-allies "Researching Castle Age")      
+)
+
+(defrule
+   (can-research imperial-age)
+   (building-type-count-total mill > 0)
+   (building-type-count-total lumber-camp > 0)
+   (building-type-count-total mining-camp > 0)
+   (building-type-count-total blacksmith > 0)
+   (building-type-count-total castle > 0)
+   (building-type-count-total university > 0)
+   (unit-type-count-total villager >= 30) 
+   =>
+   (research imperial-age)
+   (chat-to-allies "Researching Imperial Age")      
+)
+
+;*****************************************************************************
+;				Economy Rules
+;*****************************************************************************
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-percent-civilian-explorers 100)
+	(set-strategic-number sn-minimum-civilian-explorers 100)
+	(set-strategic-number sn-cap-civilian-explorers 100)
+	(set-strategic-number sn-total-number-explorers 101)
+	(set-strategic-number sn-number-explore-groups 101)
+	(set-strategic-number sn-minimum-explore-group-size 1)
+	(set-strategic-number sn-maximum-explore-group-size 1)
+	(set-strategic-number sn-initial-exploration-required 0)
+	(disable-self)
+)
+
+(defrule
+	(resource-found food)
+	=>
+	(set-strategic-number sn-percent-civilian-explorers 0)
+	(set-strategic-number sn-minimum-civilian-explorers 0)
+	(set-strategic-number sn-cap-civilian-explorers 0)
+	(set-strategic-number sn-total-number-explorers 1)
+	(set-strategic-number sn-number-explore-groups 1)
+	(set-strategic-number sn-initial-exploration-required 0)
+	(disable-self)
+)
+
+(defrule
+	(current-age == dark-age)
+	=>
+	(set-strategic-number sn-food-gatherer-percentage 60)
+	(set-strategic-number sn-wood-gatherer-percentage 40)
+	(set-strategic-number sn-gold-gatherer-percentage 0)
+	(set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+(defrule
+	(current-age == imperial-age)
+	=>
+	(set-strategic-number sn-food-gatherer-percentage 35)
+	(set-strategic-number sn-wood-gatherer-percentage 25)
+	(set-strategic-number sn-gold-gatherer-percentage 25)
+	(set-strategic-number sn-stone-gatherer-percentage 15)
+)
+
+(defrule
+	(current-age == castle-age)
+	=>
+	(set-strategic-number sn-food-gatherer-percentage 30)
+	(set-strategic-number sn-wood-gatherer-percentage 30)
+	(set-strategic-number sn-gold-gatherer-percentage 20)
+	(set-strategic-number sn-stone-gatherer-percentage 20)
+)
+
+(defrule
+	(current-age == feudal-age)
+	=>
+	(set-strategic-number sn-food-gatherer-percentage 40)
+	(set-strategic-number sn-wood-gatherer-percentage 30)
+	(set-strategic-number sn-gold-gatherer-percentage 25)
+	(set-strategic-number sn-stone-gatherer-percentage 5)
+)
+
+
+
+;*****************************************************************************
+;				Build Rules
+;*****************************************************************************
+
+(defrule
+	(building-type-count-total town-center < 1)
+	(can-build town-center)
+=>
+	(build town-center)
+)
+
+#load-if-not-defined HUN-CIV 
+
+(defrule
+	(housing-headroom < 4)
+	(population-headroom > 3)
+	(can-build house)
+	=>
+	(build house)
+)
+
+#end-if	
+
+
+(defrule
+	(or(building-type-count-total house > 0) ;Start first house before mill.
+		(civ-selected hun))	
+
+	(building-type-count-total mill == 0) 
+	(resource-found food) 
+	(can-build mill)
+	=>
+	(build mill)
+	)
+
+;Lumbercamp placement
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-camp-max-distance 8)
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time < 4)
+	=>
+	(set-strategic-number sn-camp-max-distance 11)
+	(chat-local-to-self "Camp distance 11.")
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time < 7)
+	=>
+	(set-strategic-number sn-camp-max-distance 13)
+	(chat-local-to-self "Camp distance 13.")
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time < 12)
+	=>
+	(set-strategic-number sn-camp-max-distance 15)
+	(chat-local-to-self "Camp distance 15.")
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time < 16)
+	=>
+	(set-strategic-number sn-camp-max-distance 17)
+	(chat-local-to-self "Camp distance 17.")
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time < 25)
+	=>
+	(set-strategic-number sn-camp-max-distance 20)
+	(chat-local-to-self "Camp distance 20.")
+	(disable-self)
+)
+
+(defrule
+	(resource-found wood)
+	(strategic-number sn-camp-max-distance == 8)
+	(game-time > 25)
+	=>
+	(set-strategic-number sn-camp-max-distance 22)
+	(chat-local-to-self "Camp distance 22.")
+	(disable-self)
+)
+
+(defrule
+		(current-age == dark-age)
+	(wood-amount > 200)
+	(population > 19)
+	(building-type-count-total lumber-camp == 0)
+	=>
+	(set-strategic-number sn-camp-max-distance 35)
+	(chat-to-allies "Wood further away than 22 tiles!")
+	(chat-local-to-self "Camp distance 35.")
+	(disable-self)
+)
+
+(defrule
+	(current-age == dark-age)
+	(wood-amount > 200)
+	(population > 21)
+	(building-type-count-total lumber-camp == 0)
+	=>
+	(set-strategic-number sn-camp-max-distance 45)
+	(chat-to-allies "Wood further away than 35 tiles!")
+	(chat-local-to-self "Camp distance 45.")
+	(disable-self)
+)
+
+(defrule
+		(current-age == dark-age)
+	(building-type-count-total mill > 0)
+	(building-type-count-total lumber-camp == 0)
+	(resource-found wood)
+	(can-build lumber-camp)
+	=>
+	(build lumber-camp)
+)
+
+(defrule
+	(building-type-count-total lumber-camp > 0)
+	(strategic-number sn-camp-max-distance < 35)
+	=>
+	(set-strategic-number sn-camp-max-distance 35)
+	(chat-local-to-self "Camp distance 35.")
+	(disable-self)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(building-type-count lumber-camp == 1)
+	(dropsite-min-distance wood > 5)
+	=>
+	(chat-to-allies "Bad lumber camp.")
+	(set-strategic-number sn-camp-max-distance 45)
+	(chat-local-to-self "Camp distance 45.")
+	(set-strategic-number sn-maximum-wood-drop-distance -1)
+	(disable-self)
+)
+
+(defrule
+	(building-type-count-total lumber-camp == 2)
+	=>
+	(set-strategic-number sn-maximum-wood-drop-distance 15)
+	(disable-self)
+)
+
+(defrule
+	(or(current-age >= feudal-age)
+		(strategic-number sn-camp-max-distance == 45))
+	(dropsite-min-distance wood > 5)
+	(can-build lumber-camp)
+	=>
+	(build lumber-camp)
+)
+;end of Lumbercamp placement
+
+(defrule
+	(building-type-count-total lumber-camp > 0) 
+	(unit-type-count-total villager > 15)
+	(building-type-count-total farm < 15)
+	(idle-farm-count == 0)
+	(can-build farm) 
+	=>
+	(build farm)
+)
+
+(defrule
+	(resource-found gold)
+	(building-type-count mining-camp < 4)
+	(cc-players-unit-type-count 0 66 > 0)
+	(dropsite-min-distance gold > 5)
+	(dropsite-min-distance gold < 255)
+	(can-build mining-camp)
+	=>
+	(build mining-camp)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(resource-found stone)
+	(building-type-count mining-camp < 4)
+	(dropsite-min-distance stone > 10)
+	(can-build mining-camp)
+	=>
+	(build mining-camp)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(unit-type-count-total villager > 15)
+	(building-type-count-total barracks < 2)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(building-type-count-total barracks > 1)
+	(building-type-count-total blacksmith < 1)
+	(can-build blacksmith)
+	=>
+	(build blacksmith)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count-total market < 1)
+	(can-build market)
+	=>
+	(build market)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count-total blacksmith > 0)
+	(building-type-count-total archery-range < 1)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count-total blacksmith > 0)
+	(building-type-count-total stable < 1)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+
+(defrule
+	(current-age > feudal-age)
+	(building-type-count-total siege-workshop < 1)
+	(can-build siege-workshop)
+	=>
+	(build siege-workshop)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count-total blacksmith > 0)
+	(building-type-count-total watch-tower < 3)
+	(can-build watch-tower)
+	=>
+	(build watch-tower)
+)
+
+(defrule
+	(can-build castle)
+	=>
+	(build castle)
+)
+
+(defrule
+	(building-type-count-total university == 0)
+	(can-build university)
+	=>
+	(build university)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(building-type-count-total monastery < 1)
+	(can-build monastery)
+=>
+	(build monastery)
+)
+
+;*****************************************************************************
+;				Research Rules
+;*****************************************************************************
+(defrule
+	(can-research ri-wheel-barrow)
+	=>
+	(research ri-wheel-barrow)
+	(chat-to-allies "Researching wheel barrow.")
+)
+
+(defrule
+	(can-research ri-man-at-arms)
+	=>
+	(research ri-man-at-arms)
+	(chat-to-allies "Researching man at arms.")
+)
+
+(defrule
+	(can-research ri-long-swordsman)
+	=>
+	(research ri-long-swordsman)
+	(chat-to-allies "Researching swordsman.")
+)
+
+(defrule
+	(can-research ri-two-handed-swordsman)
+	=>
+	(research ri-two-handed-swordsman)
+	(chat-to-allies "Researching twohanded.")
+)
+
+(defrule
+	(can-research ri-champion)
+	=>
+	(research ri-champion)
+	(chat-to-allies "Researching champion.")
+)
+
+(defrule
+	(can-research ri-crossbow)
+	=>
+	(research ri-crossbow)
+	(chat-to-allies "Researching crossbow.")
+)
+
+(defrule
+	(can-research ri-arbalest)
+	=>
+	(research ri-arbalest)
+	(chat-to-allies "Researching arbalest.")
+)
+
+(defrule
+	(not(research-available ri-wheel-barrow))
+	(not(research-available ri-man-at-arms))
+	(can-research ri-double-bit-axe)
+	=>
+	(research ri-double-bit-axe)
+	(chat-to-allies "Researching double bit axe.")
+)
+
+(defrule
+	(not(research-available ri-double-bit-axe))
+	(can-research ri-gold-mining)
+	=>
+	(research ri-gold-mining)
+	(chat-to-allies "Researching gold mining.")
+)
+
+(defrule
+	(not(research-available ri-gold-mining))
+	(can-research ri-horse-collar)
+	=>
+	(research ri-horse-collar)
+	(chat-to-allies "Researching horse collar.")
+)
+
+(defrule
+	(not(research-available ri-man-at-arms))
+	(can-research ri-scale-mail)
+	=>
+	(research ri-scale-mail)
+	(chat-to-allies "Researching scale mail armor.")
+)
+
+(defrule
+	(research-completed ri-scale-mail)
+	(can-research ri-forging)
+	=>
+	(research ri-forging)
+	(chat-to-allies "Researching forging.")
+)
+
+;The following rule will greatly aid in the TC being able
+;to defend itself.
+
+(defrule
+	(town-under-attack)
+	(can-research ri-fletching)
+	=>
+	(research ri-fletching)
+	(chat-to-allies "Researching fletching.")
+)
+
+(defrule
+	(current-age > dark-age)
+	(can-research ri-stone-mining)
+	=>
+	(research ri-stone-mining)
+	(chat-to-allies "Researching stone mining.")
+)
+
+(defrule
+	(current-age > feudal-age)
+	(can-research ri-murder-holes)
+	=>
+	(research ri-murder-holes)
+	(chat-to-allies "Researching murder holes.")
+)
+
+(defrule
+	(current-age > feudal-age)
+	(can-research ri-ballistics)
+	=>
+	(research ri-ballistics)
+	(chat-to-allies "Researching ballistics.")
+)
+
+(defrule
+	(can-research ri-capped-ram)
+	=>
+	(research ri-capped-ram)
+	(chat-to-allies "Researching capped ram.")
+)
+
+(defrule
+	(can-research ri-siege-ram)
+	=>
+	(research ri-siege-ram)
+	(chat-to-allies "Researching siege ram.")
+)
+
+;*****************************************************************************
+;				Training Rules
+;*****************************************************************************
+(defrule
+	(current-age == dark-age) 
+	(unit-type-count-total villager < max-num-dark-villagers) 
+	(can-train villager)
+	=>
+	(train villager)
+)
+
+(defrule							
+	(current-age == feudal-age) 
+	(unit-type-count-total villager < 30)
+	(can-train villager)
+	=>
+	(train villager)
+)
+
+(defrule							
+	(current-age > feudal-age) 
+	(unit-type-count-total villager < 40)
+	(can-train villager)
+	=>
+	(train villager)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(unit-type-count-total villager > 20)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(current-age > dark-age)
+	(unit-type-count-total villager > 20)
+	(can-train militiaman-line)
+	(strategic-number SN-MILITARY-SUPERIORITY < 0) 
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(current-age > dark-age)
+	(unit-type-count-total villager > 20)
+	(can-train archer-line)
+	(strategic-number SN-MILITARY-SUPERIORITY < 0) 
+	=>
+	(train archer-line)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(unit-type-count-total villager > 20)
+	(can-train archer-line)
+	=>
+	(train archer-line)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(unit-type-count-total battering-ram-line < 5)
+	(strategic-number SN-MILITARY-SUPERIORITY > -1)
+	(can-train battering-ram-line)
+	=>
+	(train battering-ram-line)
+)
+
+;*****************************************************************************
+;				Military Superiority
+;*****************************************************************************
+(load "Default\Military Superiority")
+
+;*****************************************************************************
+; Defend Rules
+;*****************************************************************************
+(defrule
+	(town-under-attack)
+	(strategic-number sn-enemy-sighted-response-distance == 2)
+	=>
+	(set-strategic-number sn-enemy-sighted-response-distance 144) 
+	(set-strategic-number sn-target-evaluation-siege-weapon 100)
+)
+
+(defrule
+	(not(town-under-attack))
+	(strategic-number sn-enemy-sighted-response-distance == 144)
+	=>
+	(set-strategic-number sn-enemy-sighted-response-distance 2) 
+	(set-strategic-number sn-target-evaluation-siege-weapon 0)
+)
+
+
+
+;*****************************************************************************
+; Attack Rules
+;*****************************************************************************
+(load "Default\Attack")
+
+
+;*****************************************************************************
+; Market Rules
+;*****************************************************************************
+(load "Default\Market")
+
+
+;*****************************************************************************
+; Resign Rules
+;*****************************************************************************
+(load "Default\Resign")
+

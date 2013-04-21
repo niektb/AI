@@ -1,0 +1,160 @@
+; It's difficult to balance our stock resources for AIs. You often get excess of a resource while a lack of other one.
+; Market tries to compensate it. I'ts not very efficient because the interests pais in every transaction, but it's still better than
+; have much more wood (for example) than needed and can't train villagers and infantry because lack of food.
+
+
+; Market Feudal Rules
+
+(defrule
+	(current-age == feudal-age)
+	(wood-amount > 160)
+	(or	(gold-amount < 200)
+		(food-amount < 800)
+	)
+	(building-type-count-total barracks >= 1)
+	(building-type-count-total archery-range >= 1)
+	(building-type-count-total blacksmith >= 1)
+	(can-sell-commodity wood)
+=>
+	(sell-commodity wood)
+	(chat-to-player my-player-number "Selling wood")   
+)
+
+
+(defrule
+	(current-age == feudal-age)
+	(food-amount < 800)
+	(gold-amount > 150)
+	(or 	(food-amount < 200)
+		(gold-amount > 250)
+	)
+	(can-buy-commodity food)
+=>
+	(buy-commodity food)
+	(chat-to-player my-player-number "Buying food") 
+)
+
+
+(defrule
+	(current-age == feudal-age)
+	(food-amount > 400)
+	(gold-amount < 200)
+	(or	(food-amount > 850)
+		(gold-amount < 50)
+	)
+	(can-sell-commodity food)
+=>
+	(sell-commodity food)
+	(chat-to-player my-player-number "Selling food") 
+)
+
+
+
+
+
+
+; Market Castle Rules
+
+#load-if-defined BYZANTINE-CIV
+
+;Sell wood if you have surplus wood.
+(defrule
+	(current-age == castle-age)
+	(building-type-count-total barracks >= 1)
+	(building-type-count-total archery-range >= 3)
+	(building-type-count-total stable >= 2)
+	(building-type-count-total monastery >= 1)
+	(building-type-count-total siege-workshop >= 1)
+	(building-type-count-total university >= 1)
+	(wood-amount > 400)
+	(or	(food-amount < 667)
+		(gold-amount < 534)
+	)
+	(can-sell-commodity wood)
+=>
+	(sell-commodity wood)
+	(chat-to-player my-player-number "Selling wood") 
+)
+
+;Buy food if you have surplus gold.
+(defrule
+	(current-age == castle-age)
+	(food-amount < 667)
+	(gold-amount > 634)
+	(can-buy-commodity food)
+=>
+	(buy-commodity food)
+	(chat-to-player my-player-number "Buying food") 
+)
+
+;Sell food if you have surplus food.
+(defrule
+	(current-age == castle-age)
+	(food-amount > 767)
+	(gold-amount < 534)
+
+	(can-sell-commodity food)
+=>
+	(sell-commodity food)
+	(chat-to-player my-player-number "Selling food")
+)
+
+#else ; Not Byzantines
+
+;Sell wood if you have surplus wood.
+(defrule
+	(current-age == castle-age)
+	(building-type-count-total barracks >= 1)
+	(building-type-count-total archery-range >= 3)
+	(building-type-count-total stable >= 2)
+	(building-type-count-total monastery >= 1)
+	(building-type-count-total siege-workshop >= 1)
+	(building-type-count-total university >= 1)
+	(wood-amount > 400)
+	(or	(food-amount < 1000)
+		(gold-amount < 800)
+	)
+	(can-sell-commodity wood)
+=>
+	(sell-commodity wood)
+	(chat-to-player my-player-number "Selling wood") 
+)
+
+;Buy food if you have surplus gold.
+(defrule
+	(current-age == castle-age)
+	(food-amount < 1000)
+	(gold-amount > 900)
+	(can-buy-commodity food)
+=>
+	(buy-commodity food)
+	(chat-to-player my-player-number "Buying food") 
+)
+
+;Sell food if you have surplus food.
+(defrule
+	(current-age == castle-age)
+	(food-amount > 1100)
+	(gold-amount < 800)
+
+	(can-sell-commodity food)
+=>
+	(sell-commodity food)
+	(chat-to-player my-player-number "Selling food")
+)
+
+#end-if
+
+; Stone excess
+(defrule
+	(or	(current-age >= castle-age)
+		(building-type-count-total watch-tower >= 10)
+	)
+	(building-type-count-total castle >= 10)
+	(building-type-count-total town-center >= 3)
+	(research-completed ri-murder-holes)
+	(can-sell-commodity stone)
+=>
+	(sell-commodity stone)
+	(chat-to-player my-player-number "Selling stone")
+)

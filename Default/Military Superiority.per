@@ -1,0 +1,848 @@
+;******************************************************************************
+;
+; Military Superiority Rules, from Goose AI by Tea315
+;
+;******************************************************************************
+;
+; This can also be done with a goal, but I prefer using an obsolete 
+; strategic number instead because it allows for comparisons.  For example,
+; if my military superiority is greater than some value do this, if it is less
+; than that value do that.  You can do the same thing with goals by nesting
+; a bunch of "or" statements.  I just find it much easier to do with an 
+; obsolete strategic number.
+
+;  Degree of military superiority. 
+;
+;        -4 = There is an enemy that has at least 20 more military than I do.
+;        -3 = There is an enemy that has at least 15 more military than I do.
+;        -2 = There is an enemy that has at least 10 more military than I do.
+;        -1 = There is an enemy that has at least 5 more military than I do.
+;         0 = Every enemy is within 5 of my military.
+;         1 = I have 5 more military than every enemy.
+;         2 = I have 10 more military than every enemy.
+;         3 = I have over 95 military or 15 more military than every enemy.
+;         4 = I have over 100 military or 20 more military than every enemy.
+
+;Ok, I only need values from [-1 to +1] in this version, but I'll use the others in the future
+
+(defrule  ;Initialize
+	(true)
+=>
+	(set-strategic-number SN-MILITARY-SUPERIORITY 0)
+)
+
+
+
+; ***************************************************************************************************************************************
+;  set-strategic-number SN-MILITARY-SUPERIORITY 1
+; ***************************************************************************************************************************************
+
+(defrule
+   (or(and(military-population > 200)
+          (players-military-population every-enemy < 197))
+      (or(and(military-population > 195)
+             (players-military-population every-enemy < 192))
+          (or(and(military-population > 190)
+                 (players-military-population every-enemy < 187))
+             (and(military-population > 185)
+                 (players-military-population every-enemy < 182)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 180)
+          (players-military-population every-enemy < 177))
+      (or(and(military-population > 175)
+             (players-military-population every-enemy < 172))
+          (or(and(military-population > 170)
+                 (players-military-population every-enemy < 167))
+             (and(military-population > 165)
+                 (players-military-population every-enemy < 162)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 160)
+          (players-military-population every-enemy < 157))
+      (or(and(military-population > 155)
+             (players-military-population every-enemy < 152))
+          (or(and(military-population > 150)
+                 (players-military-population every-enemy < 147))
+             (and(military-population > 145)
+                 (players-military-population every-enemy < 142)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 140)
+          (players-military-population every-enemy < 137))
+      (or(and(military-population > 135)
+             (players-military-population every-enemy < 132))
+          (or(and(military-population > 130)
+                 (players-military-population every-enemy < 127))
+             (and(military-population > 125)
+                 (players-military-population every-enemy < 122)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 120)
+          (players-military-population every-enemy < 117))
+      (or(and(military-population > 115)
+             (players-military-population every-enemy < 112))
+          (or(and(military-population > 110)
+                 (players-military-population every-enemy < 107))
+             (and(military-population > 105)
+                 (players-military-population every-enemy < 102)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 100)
+          (players-military-population every-enemy < 97))
+      (or(and(military-population > 95)
+             (players-military-population every-enemy < 92))
+          (or(and(military-population > 90)
+                 (players-military-population every-enemy < 87))
+             (and(military-population > 85)
+                 (players-military-population every-enemy < 82)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 80)
+          (players-military-population every-enemy < 77))
+      (or(and(military-population > 75)
+             (players-military-population every-enemy < 72))
+          (or(and(military-population > 70)
+                 (players-military-population every-enemy < 67))
+             (and(military-population > 65)
+                 (players-military-population every-enemy < 62)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+(defrule
+   (or(and(military-population > 60)
+          (players-military-population every-enemy < 57))
+      (or(and(military-population > 55)
+             (players-military-population every-enemy < 52))
+          (or(and(military-population > 50)
+                 (players-military-population every-enemy < 47))
+             (and(military-population > 45)
+                 (players-military-population every-enemy < 42)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+
+(defrule
+   (or(and(military-population > 40)
+          (players-military-population every-enemy < 37))
+      (or(and(military-population > 35)
+             (players-military-population every-enemy < 32))
+          (or(and(military-population > 30)
+                 (players-military-population every-enemy < 27))
+             (and(military-population > 25)
+                 (players-military-population every-enemy < 22)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+; low population, maybe still useful in 25-POP game?
+(defrule
+   (or(and(military-population > 20)
+          (players-military-population every-enemy < 17))
+      (or(and(military-population > 15)
+             (players-military-population every-enemy < 12))
+          (or(and(military-population > 10)
+                 (players-military-population every-enemy < 7))
+             (and(military-population > 4) ; It should be 5, but TSA is slow so when it reaches enemy base we usuallu have 5th soldier
+                 (players-military-population every-enemy < 2)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 1)
+)
+
+
+; end of set-strategic-number SN-MILITARY-SUPERIORITY 1
+; ***************************************************************************************************************************************
+;  set-strategic-number SN-MILITARY-SUPERIORITY 2
+; ***************************************************************************************************************************************
+(defrule
+   (or(and(military-population > 205)
+          (players-military-population every-enemy < 197))
+      (or(and(military-population > 200)
+             (players-military-population every-enemy < 192))
+          (or(and(military-population > 195)
+                 (players-military-population every-enemy < 187))
+             (and(military-population > 190)
+                 (players-military-population every-enemy < 182)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 185)
+          (players-military-population every-enemy < 177))
+      (or(and(military-population > 180)
+             (players-military-population every-enemy < 172))
+          (or(and(military-population > 175)
+                 (players-military-population every-enemy < 167))
+             (and(military-population > 170)
+                 (players-military-population every-enemy < 162)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 165)
+          (players-military-population every-enemy < 157))
+      (or(and(military-population > 160)
+             (players-military-population every-enemy < 152))
+          (or(and(military-population > 155)
+                 (players-military-population every-enemy < 147))
+             (and(military-population > 150)
+                 (players-military-population every-enemy < 142)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 145)
+          (players-military-population every-enemy < 137))
+      (or(and(military-population > 140)
+             (players-military-population every-enemy < 132))
+          (or(and(military-population > 135)
+                 (players-military-population every-enemy < 127))
+             (and(military-population > 130)
+                 (players-military-population every-enemy < 122)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 125)
+          (players-military-population every-enemy < 117))
+      (or(and(military-population > 120)
+             (players-military-population every-enemy < 112))
+          (or(and(military-population > 115)
+                 (players-military-population every-enemy < 107))
+             (and(military-population > 110)
+                 (players-military-population every-enemy < 102)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 105)
+          (players-military-population every-enemy < 97))
+      (or(and(military-population > 100)
+             (players-military-population every-enemy < 92))
+          (or(and(military-population > 95)
+                 (players-military-population every-enemy < 87))
+             (and(military-population > 90)
+                 (players-military-population every-enemy < 82)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 85)
+          (players-military-population every-enemy < 77))
+      (or(and(military-population > 80)
+             (players-military-population every-enemy < 72))
+          (or(and(military-population > 75)
+                 (players-military-population every-enemy < 67))
+             (and(military-population > 70)
+                 (players-military-population every-enemy < 62)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+(defrule
+   (or(and(military-population > 65)
+          (players-military-population every-enemy < 57))
+      (or(and(military-population > 60)
+             (players-military-population every-enemy < 52))
+          (or(and(military-population > 55)
+                 (players-military-population every-enemy < 47))
+             (and(military-population > 50)
+                 (players-military-population every-enemy < 42)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+
+
+(defrule
+   (or(and(military-population > 45)
+          (players-military-population every-enemy < 37))
+      (or(and(military-population > 40)
+             (players-military-population every-enemy < 32))
+          (or(and(military-population > 35)
+                 (players-military-population every-enemy < 27))
+             (and(military-population > 30)
+                 (players-military-population every-enemy < 22)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+; low population, maybe still useful in 25-POP game?
+(defrule
+   (or(and(military-population > 25)
+          (players-military-population every-enemy < 17))
+      (or(and(military-population > 20)
+             (players-military-population every-enemy < 12))
+          (or(and(military-population > 15)
+                 (players-military-population every-enemy < 7))
+             (and(military-population > 10)
+                 (players-military-population every-enemy < 2)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 2)
+)
+; end of set-strategic-number SN-MILITARY-SUPERIORITY 2
+; ***************************************************************************************************************************************
+;  set-strategic-number SN-MILITARY-SUPERIORITY 3
+; ***************************************************************************************************************************************
+(defrule
+  (military-population > 195)
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 190)
+          (players-military-population every-enemy < 177))
+      (or(and(military-population > 185)
+             (players-military-population every-enemy < 172))
+          (or(and(military-population > 180)
+                 (players-military-population every-enemy < 167))
+             (and(military-population > 175)
+                 (players-military-population every-enemy < 162)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 170)
+          (players-military-population every-enemy < 157))
+      (or(and(military-population > 165)
+             (players-military-population every-enemy < 152))
+          (or(and(military-population > 160)
+                 (players-military-population every-enemy < 147))
+             (and(military-population > 155)
+                 (players-military-population every-enemy < 142)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 150)
+          (players-military-population every-enemy < 137))
+      (or(and(military-population > 145)
+             (players-military-population every-enemy < 132))
+          (or(and(military-population > 140)
+                 (players-military-population every-enemy < 127))
+             (and(military-population > 135)
+                 (players-military-population every-enemy < 122)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 130)
+          (players-military-population every-enemy < 117))
+      (or(and(military-population > 125)
+             (players-military-population every-enemy < 112))
+          (or(and(military-population > 120)
+                 (players-military-population every-enemy < 107))
+             (and(military-population > 115)
+                 (players-military-population every-enemy < 102)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 110)
+          (players-military-population every-enemy < 97))
+      (or(and(military-population > 105)
+             (players-military-population every-enemy < 92))
+          (or(and(military-population > 100)
+                 (players-military-population every-enemy < 87))
+             (and(military-population > 95)
+                 (players-military-population every-enemy < 82)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 90)
+          (players-military-population every-enemy < 77))
+      (or(and(military-population > 85)
+             (players-military-population every-enemy < 72))
+          (or(and(military-population > 80)
+                 (players-military-population every-enemy < 67))
+             (and(military-population > 75)
+                 (players-military-population every-enemy < 62)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+(defrule
+   (or(and(military-population > 70)
+          (players-military-population every-enemy < 57))
+      (or(and(military-population > 65)
+             (players-military-population every-enemy < 52))
+          (or(and(military-population > 60)
+                 (players-military-population every-enemy < 47))
+             (and(military-population > 55)
+                 (players-military-population every-enemy < 42)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+
+
+(defrule
+   (or(and(military-population > 50)
+          (players-military-population every-enemy < 37))
+      (or(and(military-population > 45)
+             (players-military-population every-enemy < 32))
+          (or(and(military-population > 40)
+                 (players-military-population every-enemy < 27))
+             (and(military-population > 35)
+                 (players-military-population every-enemy < 22)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+; low population, maybe still useful in 25-POP game?
+(defrule
+   (or(and(military-population > 30)
+          (players-military-population every-enemy < 17))
+      (or(and(military-population > 25)
+             (players-military-population every-enemy < 12))
+          (or(and(military-population > 20)
+                 (players-military-population every-enemy < 7))
+             (and(military-population > 15)
+                 (players-military-population every-enemy < 2)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 3)
+)
+; end of set-strategic-number SN-MILITARY-SUPERIORITY 3
+; **************************************************************************************************************************************
+;  set-strategic-number SN-MILITARY-SUPERIORITY 4
+; **************************************************************************************************************************************
+; 20+ population superiority
+(defrule
+   (or(military-population > 200)
+      (or(and(military-population > 190)
+             (players-military-population every-enemy < 172))
+          (or(and(military-population > 185)
+                 (players-military-population every-enemy < 167))
+             (and(military-population > 180)
+                 (players-military-population every-enemy < 162)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 175)
+          (players-military-population every-enemy < 157))
+      (or(and(military-population > 170)
+             (players-military-population every-enemy < 152))
+          (or(and(military-population > 165)
+                 (players-military-population every-enemy < 147))
+             (and(military-population > 160)
+                 (players-military-population every-enemy < 142)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 155)
+          (players-military-population every-enemy < 137))
+      (or(and(military-population > 150)
+             (players-military-population every-enemy < 132))
+          (or(and(military-population > 145)
+                 (players-military-population every-enemy < 127))
+             (and(military-population > 140)
+                 (players-military-population every-enemy < 122)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 135)
+          (players-military-population every-enemy < 117))
+      (or(and(military-population > 130)
+             (players-military-population every-enemy < 112))
+          (or(and(military-population > 125)
+                 (players-military-population every-enemy < 107))
+             (and(military-population > 120)
+                 (players-military-population every-enemy < 102)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 115)
+          (players-military-population every-enemy < 97))
+      (or(and(military-population > 110)
+             (players-military-population every-enemy < 92))
+          (or(and(military-population > 105)
+                 (players-military-population every-enemy < 87))
+             (and(military-population > 100)
+                 (players-military-population every-enemy < 82)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 95)
+          (players-military-population every-enemy < 77))
+      (or(and(military-population > 90)
+             (players-military-population every-enemy < 72))
+          (or(and(military-population > 85)
+                 (players-military-population every-enemy < 67))
+             (and(military-population > 80)
+                 (players-military-population every-enemy < 62)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 75)
+          (players-military-population every-enemy < 57))
+      (or(and(military-population > 70)
+             (players-military-population every-enemy < 52))
+          (or(and(military-population > 65)
+                 (players-military-population every-enemy < 47))
+             (and(military-population > 60)
+                 (players-military-population every-enemy < 42)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 55)
+          (players-military-population every-enemy < 37))
+      (or(and(military-population > 50)
+             (players-military-population every-enemy < 32))
+          (or(and(military-population > 45)
+                 (players-military-population every-enemy < 27))
+             (and(military-population > 40)
+                 (players-military-population every-enemy < 22)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+(defrule
+   (or(and(military-population > 35)
+          (players-military-population every-enemy < 17))
+      (or(and(military-population > 30)
+             (players-military-population every-enemy < 12))
+          (or(and(military-population > 25)
+                 (players-military-population every-enemy < 7))
+             (and(military-population > 20)
+                 (players-military-population every-enemy < 2)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY 4)
+)
+
+; end of set-strategic-number SN-MILITARY-SUPERIORITY 4
+; **************************************************************************************************************************************
+;  set-strategic-number SN-MILITARY-SUPERIORITY -1
+; **************************************************************************************************************************************
+; -1/-4 population
+; low population, maybe still to stop flushes which are failing
+(defrule
+   (or(and(military-population < 2)
+          (players-military-population any-enemy > 2))
+      (or(and(military-population < 5)
+             (players-military-population any-enemy > 5))
+          (or(and(military-population < 9)
+                 (players-military-population any-enemy > 9))
+             (and(military-population < 14)
+                 (players-military-population any-enemy > 14)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 19)
+          (players-military-population any-enemy > 19))
+      (or(and(military-population < 24)
+             (players-military-population any-enemy > 24))
+          (or(and(military-population < 29)
+                 (players-military-population any-enemy > 29))
+             (and(military-population < 34)
+                 (players-military-population any-enemy > 34)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+; -5 population
+; low population, maybe still useful in 25-POP game
+(defrule
+   (or(and(military-population < 2)
+          (players-military-population any-enemy > 5))
+      (or(and(military-population < 7)
+             (players-military-population any-enemy > 10))
+          (or(and(military-population < 12)
+                 (players-military-population any-enemy > 15))
+             (and(military-population < 17)
+                 (players-military-population any-enemy > 20)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 22)
+          (players-military-population any-enemy > 25))
+      (or(and(military-population < 27)
+             (players-military-population any-enemy > 30))
+          (or(and(military-population < 32)
+                 (players-military-population any-enemy > 35))
+             (and(military-population < 37)
+                 (players-military-population any-enemy > 40)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 42)
+          (players-military-population any-enemy > 45))
+      (or(and(military-population < 47)
+             (players-military-population any-enemy > 50))
+          (or(and(military-population < 52)
+                 (players-military-population any-enemy > 55))
+             (and(military-population < 57)
+                 (players-military-population any-enemy > 60)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 62)
+          (players-military-population any-enemy > 65))
+      (or(and(military-population < 67)
+             (players-military-population any-enemy > 70))
+          (or(and(military-population < 72)
+                 (players-military-population any-enemy > 75))
+             (and(military-population < 77)
+                 (players-military-population any-enemy > 80)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 82)
+          (players-military-population any-enemy > 85))
+      (or(and(military-population < 87)
+             (players-military-population any-enemy > 90))
+          (or(and(military-population < 92)
+                 (players-military-population any-enemy > 95))
+             (and(military-population < 97)
+                 (players-military-population any-enemy > 100)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 102)
+          (players-military-population any-enemy > 105))
+      (or(and(military-population < 107)
+             (players-military-population any-enemy > 110))
+          (or(and(military-population < 112)
+                 (players-military-population any-enemy > 115))
+             (and(military-population < 117)
+                 (players-military-population any-enemy > 120)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 122)
+          (players-military-population any-enemy > 125))
+      (or(and(military-population < 127)
+             (players-military-population any-enemy > 130))
+          (or(and(military-population < 132)
+                 (players-military-population any-enemy > 135))
+             (and(military-population < 137)
+                 (players-military-population any-enemy > 140)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 142)
+          (players-military-population any-enemy > 145))
+      (or(and(military-population < 147)
+             (players-military-population any-enemy > 150))
+          (or(and(military-population < 152)
+                 (players-military-population any-enemy > 155))
+             (and(military-population < 157)
+                 (players-military-population any-enemy > 160)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+
+(defrule
+   (or(and(military-population < 162)
+          (players-military-population any-enemy > 165))
+      (or(and(military-population < 167)
+             (players-military-population any-enemy > 170))
+          (or(and(military-population < 172)
+                 (players-military-population any-enemy > 175))
+             (and(military-population < 177)
+                 (players-military-population any-enemy > 180)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+(defrule
+   (or(and(military-population < 182)
+          (players-military-population any-enemy > 185))
+      (or(and(military-population < 187)
+             (players-military-population any-enemy > 190))
+         (and(military-population < 192)
+             (players-military-population any-enemy > 195))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -1)
+)
+
+; end of set-strategic-number SN-MILITARY-SUPERIORITY -1
+
+
+; -10 population
+(defrule
+   (or(and(military-population < 2)
+          (players-military-population any-enemy > 10))
+      (or(and(military-population < 7)
+             (players-military-population any-enemy > 15))
+          (or(and(military-population < 12)
+                 (players-military-population any-enemy > 20))
+             (and(military-population < 17)
+                 (players-military-population any-enemy > 25)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 22)
+          (players-military-population any-enemy > 30))
+      (or(and(military-population < 27)
+             (players-military-population any-enemy > 35))
+          (or(and(military-population < 32)
+                 (players-military-population any-enemy > 40))
+             (and(military-population < 37)
+                 (players-military-population any-enemy > 45)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 42)
+          (players-military-population any-enemy > 50))
+      (or(and(military-population < 47)
+             (players-military-population any-enemy > 55))
+          (or(and(military-population < 52)
+                 (players-military-population any-enemy > 60))
+             (and(military-population < 57)
+                 (players-military-population any-enemy > 65)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 62)
+          (players-military-population any-enemy > 70))
+      (or(and(military-population < 67)
+             (players-military-population any-enemy > 75))
+          (or(and(military-population < 72)
+                 (players-military-population any-enemy > 80))
+             (and(military-population < 77)
+                 (players-military-population any-enemy > 85)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 82)
+          (players-military-population any-enemy > 90))
+      (or(and(military-population < 87)
+             (players-military-population any-enemy > 95))
+          (or(and(military-population < 92)
+                 (players-military-population any-enemy > 100))
+             (and(military-population < 97)
+                 (players-military-population any-enemy > 105)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 102)
+          (players-military-population any-enemy > 110))
+      (or(and(military-population < 107)
+             (players-military-population any-enemy > 115))
+          (or(and(military-population < 112)
+                 (players-military-population any-enemy > 120))
+             (and(military-population < 117)
+                 (players-military-population any-enemy > 125)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 122)
+          (players-military-population any-enemy > 130))
+      (or(and(military-population < 127)
+             (players-military-population any-enemy > 135))
+          (or(and(military-population < 132)
+                 (players-military-population any-enemy > 140))
+             (and(military-population < 137)
+                 (players-military-population any-enemy > 145)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 142)
+          (players-military-population any-enemy > 150))
+      (or(and(military-population < 147)
+             (players-military-population any-enemy > 155))
+          (or(and(military-population < 152)
+                 (players-military-population any-enemy > 160))
+             (and(military-population < 157)
+                 (players-military-population any-enemy > 165)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 162)
+          (players-military-population any-enemy > 170))
+      (or(and(military-population < 167)
+             (players-military-population any-enemy > 175))
+          (or(and(military-population < 172)
+                 (players-military-population any-enemy > 180))
+             (and(military-population < 177)
+                 (players-military-population any-enemy > 185)))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+
+(defrule
+   (or(and(military-population < 182)
+          (players-military-population any-enemy > 190))
+      (or(and(military-population < 187)
+             (players-military-population any-enemy > 195))
+         (and(military-population < 192)
+                (players-military-population any-enemy > 200))))
+   =>
+   (set-strategic-number SN-MILITARY-SUPERIORITY -2)
+)
+; end of set-strategic-number SN-MILITARY-SUPERIORITY -2
