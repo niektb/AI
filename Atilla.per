@@ -265,7 +265,7 @@
 )
 
 (defrule
-		(current-age == dark-age)
+	(current-age == dark-age)
 	(wood-amount > 200)
 	(population > 19)
 	(building-type-count-total lumber-camp == 0)
@@ -289,7 +289,7 @@
 )
 
 (defrule
-		(current-age == dark-age)
+	(current-age == dark-age)
 	(building-type-count-total mill > 0)
 	(building-type-count-total lumber-camp == 0)
 	(resource-found wood)
@@ -370,7 +370,7 @@
 (defrule
 	(current-age >= feudal-age)
 	(unit-type-count-total villager > 15)
-	(building-type-count-total barracks < 2)
+	(building-type-count-total barracks < 1)
 	(can-build barracks)
 	=>
 	(build barracks)
@@ -378,7 +378,7 @@
 
 (defrule
 	(current-age >= feudal-age)
-	(building-type-count-total barracks > 1)
+	(building-type-count-total barracks > 0)
 	(building-type-count-total blacksmith < 1)
 	(can-build blacksmith)
 	=>
@@ -396,7 +396,7 @@
 (defrule
 	(current-age == feudal-age)
 	(building-type-count-total blacksmith > 0)
-	(building-type-count-total archery-range < 1)
+	(building-type-count-total archery-range < 2)
 	(can-build archery-range)
 	=>
 	(build archery-range)
@@ -461,50 +461,6 @@
 )
 
 (defrule
-	(can-research ri-man-at-arms)
-	=>
-	(research ri-man-at-arms)
-	(chat-to-allies "Researching man at arms.")
-)
-
-(defrule
-	(can-research ri-long-swordsman)
-	=>
-	(research ri-long-swordsman)
-	(chat-to-allies "Researching swordsman.")
-)
-
-(defrule
-	(can-research ri-two-handed-swordsman)
-	=>
-	(research ri-two-handed-swordsman)
-	(chat-to-allies "Researching twohanded.")
-)
-
-(defrule
-	(can-research ri-champion)
-	=>
-	(research ri-champion)
-	(chat-to-allies "Researching champion.")
-)
-
-(defrule
-	(can-research ri-crossbow)
-	=>
-	(research ri-crossbow)
-	(chat-to-allies "Researching crossbow.")
-)
-
-(defrule
-	(can-research ri-arbalest)
-	=>
-	(research ri-arbalest)
-	(chat-to-allies "Researching arbalest.")
-)
-
-(defrule
-	(not(research-available ri-wheel-barrow))
-	(not(research-available ri-man-at-arms))
 	(can-research ri-double-bit-axe)
 	=>
 	(research ri-double-bit-axe)
@@ -528,23 +484,12 @@
 )
 
 (defrule
-	(not(research-available ri-man-at-arms))
-	(can-research ri-scale-mail)
-	=>
-	(research ri-scale-mail)
-	(chat-to-allies "Researching scale mail armor.")
-)
-
-(defrule
 	(research-completed ri-scale-mail)
 	(can-research ri-forging)
 	=>
 	(research ri-forging)
 	(chat-to-allies "Researching forging.")
 )
-
-;The following rule will greatly aid in the TC being able
-;to defend itself.
 
 (defrule
 	(town-under-attack)
@@ -592,6 +537,62 @@
 	(chat-to-allies "Researching siege ram.")
 )
 
+(defrule
+	(can-research my-unique-unit-upgrade)
+	=>
+	(research my-unique-unit-upgrade)
+	(chat-to-allies "Researching elite unique units.")
+)
+
+(defrule
+	(can-research ri-heavy-cavalry-archer)
+	=>
+	(research ri-heavy-cavalry-archer)
+	(chat-to-allies "Researching heavy cavalry archer.")
+)
+
+(defrule
+	(can-research ri-pikeman)
+	=>
+	(research ri-pikeman)
+)
+
+(defrule
+	(can-research ri-halberdier)
+	=>
+	(research ri-halberdier)
+)
+
+(defrule
+	(can-research ri-bloodlines)
+	=>
+	(research ri-bloodlines)
+)
+
+(defrule
+	(can-research ri-padded-archer-armor)
+	=>
+	(research ri-padded-archer-armor)
+)
+
+(defrule
+	(can-research ri-thumb-ring)
+	=>
+	(research ri-thumb-ring)
+)
+
+(defrule
+	(can-research ri-parthian-tactics)
+	=>
+	(research ri-parthian-tactics)
+)
+
+(defrule
+	(can-research ri-husbandry)
+	=>
+	(research ri-husbandry)
+)
+
 ;*****************************************************************************
 ;				Training Rules
 ;*****************************************************************************
@@ -620,37 +621,54 @@
 )
 
 (defrule
-	(current-age == imperial-age)
+	(current-age == feudal-age)
 	(unit-type-count-total villager > 20)
-	(can-train militiaman-line)
+	(unit-type-count-total scout-cavalry-line < 3)
+	(can-train scout-cavalry-line)
 	=>
-	(train militiaman-line)
+	(train scout-cavalry-line)
 )
 
 (defrule
 	(current-age > dark-age)
 	(unit-type-count-total villager > 20)
-	(can-train militiaman-line)
 	(strategic-number SN-MILITARY-SUPERIORITY < 0) 
+	(can-train spearman-line)
 	=>
-	(train militiaman-line)
+	(train spearman-line)
 )
 
 (defrule
 	(current-age > dark-age)
 	(unit-type-count-total villager > 20)
-	(can-train archer-line)
+	(strategic-number SN-MILITARY-SUPERIORITY < 0) 
+	(can-train my-unique-unit-line)
+	=>
+	(train my-unique-unit-line)
+)
+
+(defrule
+	(current-age > dark-age)
+	(unit-type-count-total villager > 20)
+	(can-train cavalry-archer-line)
 	(strategic-number SN-MILITARY-SUPERIORITY < 0) 
 	=>
-	(train archer-line)
+	(train cavalry-archer-line)
 )
 
 (defrule
 	(current-age == imperial-age)
 	(unit-type-count-total villager > 20)
-	(can-train archer-line)
+	(can-train cavalry-archer-line)
 	=>
-	(train archer-line)
+	(train cavalry-archer-line)
+)
+
+(defrule
+	(unit-type-count-total monk < 2)
+	(can-train monk)
+	=>
+	(train monk)
 )
 
 (defrule
