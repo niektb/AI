@@ -129,9 +129,9 @@
 (defrule
 	(current-age == dark-age)
 	=>
-	(set-strategic-number sn-food-gatherer-percentage 50)
+	(set-strategic-number sn-food-gatherer-percentage 60)
 	(set-strategic-number sn-wood-gatherer-percentage 40)
-	(set-strategic-number sn-gold-gatherer-percentage 10)
+	(set-strategic-number sn-gold-gatherer-percentage 0)
 	(set-strategic-number sn-stone-gatherer-percentage 0)
 )
 
@@ -181,10 +181,10 @@
 (defrule
 	(current-age == feudal-age)
 	=>
-	(set-strategic-number sn-food-gatherer-percentage 25)
-	(set-strategic-number sn-wood-gatherer-percentage 40)
+	(set-strategic-number sn-food-gatherer-percentage 40)
+	(set-strategic-number sn-wood-gatherer-percentage 30)
 	(set-strategic-number sn-gold-gatherer-percentage 25)
-	(set-strategic-number sn-stone-gatherer-percentage 10)
+	(set-strategic-number sn-stone-gatherer-percentage 5)
 )
 
 
@@ -435,18 +435,26 @@
    (build stable)
 )
 
+
+(defrule
+   (current-age > feudal-age)
+   (building-type-count-total siege-workshop <= 1)
+   (can-build siege-workshop)
+   =>
+   (build siege-workshop)
+)
+
 (defrule
    (current-age == feudal-age)
    (building-type-count-total blacksmith > 0)
-   (can-build watch-tower)
+   (building-type-count-total watch-tower-line < 5)
+   (can-build watch-tower-line)
    =>
-   (build watch-tower)
+   (build watch-tower-line)
 )
 
 (defrule
    (current-age >= castle-age)
-   (building-type-count-total barracks > 1)
-   (building-type-count-total blacksmith > 0)
    (can-build castle)
    =>
    (build castle)
@@ -454,8 +462,8 @@
 
 (defrule
    (current-age >= castle-age)
-   (building-type-count-total barracks > 1)
-   (building-type-count-total blacksmith > 0)
+   (building-type-count-total barracks > 0)
+   (building-type-count-total university == 0)
    (can-build university)
    =>
    (build university)
